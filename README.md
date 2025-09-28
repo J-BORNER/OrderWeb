@@ -3,11 +3,17 @@
 ## Instalación
 1. Clonar repositorio
 2. npm install
-3. Configurar base de datos PostgreSQL
+3. Configurar variables de entorno
 4. Ejecutar script database.sql
-5. npm run dev
 
 ## Despliegue
 - Backend: Render Web Service
 - Base de datos: Render PostgreSQL
-- Frontend: GitHub Pages o Render Static Site
+- Frontend: Servido desde el mismo backend
+
+## Endpoints
+- POST /clientes/registrar
+- POST /clientes/login  
+- POST /ordenes
+- GET /ordenes/:clienteId
+- PUT /ordenes/:id/estado
