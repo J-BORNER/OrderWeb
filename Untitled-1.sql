@@ -18,3 +18,5 @@ CREATE TABLE ordenes (
 
 INSERT INTO clientes (nombre, email, telefono) VALUES
 ('Juan Perez', 'juan.perez@ejemplo.com', '555-1234');
+
+SELECT * FROM clientes;

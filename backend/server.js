@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // ← AGREGAR ESTO
 require('dotenv').config();
 
 const clientesRoutes = require('./routes/clientes');
@@ -12,8 +13,16 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Ruta raíz para verificar funcionamiento
+// ✅ SERVIR ARCHIVOS ESTÁTICOS DEL FRONTEND
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Ruta raíz para el frontend
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+
+// Ruta API para verificar funcionamiento
+app.get('/api', (req, res) => {
   res.json({ 
     message: '🚀 API Restaurante funcionando correctamente',
     endpoints: {
@@ -34,15 +43,9 @@ app.get('/', (req, res) => {
 app.use('/clientes', clientesRoutes);
 app.use('/ordenes', ordenesRoutes);
 
-// ✅ CORREGIDO: Manejar rutas no encontradas (sin '*')
+// Manejar rutas no encontradas
 app.use((req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
-});
-
-// Manejo de errores global
-app.use((error, req, res, next) => {
-  console.error(error);
-  res.status(500).json({ error: 'Error interno del servidor' });
 });
 
 app.listen(PORT, () => {

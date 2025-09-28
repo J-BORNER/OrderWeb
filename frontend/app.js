@@ -1,5 +1,6 @@
 const API_URL = 'https://orderweb-cj5b.onrender.com'; // Cambiar por tu URL de Render
 
+// El resto del código se mantiene igual...
 let currentClient = null;
 
 // Registro de cliente
