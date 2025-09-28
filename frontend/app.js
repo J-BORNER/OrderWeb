@@ -1,4 +1,4 @@
-const API_URL = 'https://tu-app.onrender.com'; // Cambiar por tu URL de Render
+const API_URL = 'https://orderweb-cj5b.onrender.com'; // Cambiar por tu URL de Render
 
 let currentClient = null;
 
