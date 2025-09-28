@@ -34,9 +34,15 @@ app.get('/', (req, res) => {
 app.use('/clientes', clientesRoutes);
 app.use('/ordenes', ordenesRoutes);
 
-// Manejar rutas no encontradas
-app.use('*', (req, res) => {
+// ✅ CORREGIDO: Manejar rutas no encontradas (sin '*')
+app.use((req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
+});
+
+// Manejo de errores global
+app.use((error, req, res, next) => {
+  console.error(error);
+  res.status(500).json({ error: 'Error interno del servidor' });
 });
 
 app.listen(PORT, () => {
