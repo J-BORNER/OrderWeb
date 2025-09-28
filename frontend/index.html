@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🍕 Sistema de Órdenes - Restaurante</h1>
+        
+        <!-- Sección Login/Registro -->
+        <div id="auth-section">
+            <div class="form-container">
+                <h3>Registro de Cliente</h3>
+                <form id="register-form">
+                    <input type="text" placeholder="Nombre" id="reg-nombre" required>
+                    <input type="email" placeholder="Email" id="reg-email" required>
+                    <input type="text" placeholder="Teléfono" id="reg-telefono" required>
+                    <button type="submit">Registrar</button>
+                </form>
+                
+                <h3>Iniciar Sesión</h3>
+                <form id="login-form">
+                    <input type="email" placeholder="Email" id="login-email" required>
+                    <input type="text" placeholder="Teléfono" id="login-telefono" required>
+                    <button type="submit">Ingresar</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Sección Principal (después del login) -->
+        <div id="main-section" style="display: none;">
+            <div class="header">
+                <h2>Bienvenido, <span id="client-name"></span></h2>
+                <button onclick="logout()">Cerrar Sesión</button>
+            </div>
+            
+            <!-- Formulario nueva orden -->
+            <div class="card">
+                <h3>Nueva Orden</h3>
+                <form id="order-form">
+                    <input type="text" placeholder="Nombre del platillo" id="platillo-nombre" required>
+                    <textarea placeholder="Notas especiales" id="platillo-notes"></textarea>
+                    <button type="submit">Crear Orden</button>
+                </form>
+            </div>
+            
+            <!-- Lista de órdenes -->
+            <div class="card">
+                <h3>Mis Órdenes</h3>
+                <div id="orders-list"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
