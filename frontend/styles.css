@@ -1,39 +1,44 @@
 :root {
-    /* PALETA APP PEDIDOS - Colores vibrantes y profesionales */
-    --color-primary: #FF6B35;     /* Naranja vibrante - Acciones principales */
-    --color-secondary: #2EC4B6;   /* Verde azulado - Confirmaciones */
-    --color-accent: #FF9F1C;      /* Amarillo dorado - Destacados */
-    --color-success: #2EC4B6;     /* Verde éxito */
-    --color-warning: #FF9F1C;     /* Amarillo advertencia */
-    --color-error: #E71D36;       /* Rojo error */
-    --color-info: #4361EE;        /* Azul información */
-    
-    /* Colores de fondo */
-    --bg-dark: #1A1A2E;
-    --bg-darker: #16213E;
-    --bg-card: rgba(255, 255, 255, 0.08);
-    --bg-input: rgba(255, 255, 255, 0.1);
-    
-    /* Textos */
-    --text-light: #FFFFFF;
-    --text-muted: rgba(255, 255, 255, 0.7);
-    --text-dark: #333333;
-    
-    /* Bordes */
-    --border-light: rgba(255, 255, 255, 0.2);
-    --border-primary: rgba(255, 107, 53, 0.4);
-    --border-secondary: rgba(46, 196, 182, 0.4);
-    
-    /* Sombras */
-    --shadow-primary: 0 4px 15px rgba(255, 107, 53, 0.3);
-    --shadow-secondary: 0 4px 15px rgba(46, 196, 182, 0.3);
-    --shadow-card: 0 8px 25px rgba(0, 0, 0, 0.4);
+    /* Paleta Urbana Dark (Default) */
+    --color-primary: #FF6B35; /* Naranja urbano */
+    --color-secondary: #00A8E8; /* Azul eléctrico */
+    --color-accent: #2EC4B6; /* Verde turquesa */
+    --bg-dark: #1A1D23; /* Fondo oscuro principal */
+    --bg-darker: #12151A; /* Fondo más oscuro */
+    --bg-card: #252A32; /* Fondo cards */
+    --text-light: #E8E9EB; /* Texto claro */
+    --text-muted: #8A8D93; /* Texto secundario */
+    --input-bg: #2D323C; /* Fondo inputs */
+    --input-border: #3A404C; /* Borde inputs */
+    --button-bg: linear-gradient(135deg, #FF6B35, #00A8E8);
+    --button-hover-bg: linear-gradient(135deg, #00A8E8, #FF6B35);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] {
+    /* Paleta Urbana Light */
+    --color-primary: #FF6B35; /* Mismo naranja */
+    --color-secondary: #00A8E8; /* Mismo azul */
+    --color-accent: #2EC4B6; /* Mismo turquesa */
+    --bg-dark: #F8F9FA; /* Fondo claro principal */
+    --bg-darker: #E9ECEF; /* Fondo más claro */
+    --bg-card: #FFFFFF; /* Fondo cards blanco */
+    --text-light: #212529; /* Texto oscuro */
+    --text-muted: #6C757D; /* Texto secundario */
+    --input-bg: #FFFFFF; /* Fondo inputs blanco */
+    --input-border: #CED4DA; /* Borde inputs */
+    --button-bg: linear-gradient(135deg, #FF6B35, #00A8E8);
+    --button-hover-bg: linear-gradient(135deg, #00A8E8, #FF6B35);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
@@ -43,24 +48,51 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: var(--bg-dark);
     position: relative;
     overflow-x: hidden;
     font-size: 14px;
 }
 
+/* Toggle Switch */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.toggle-btn {
+    background: var(--bg-card);
+    border: 2px solid var(--input-border);
+    border-radius: 25px;
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.toggle-icon {
+    font-size: 1rem;
+}
+
 .container {
-    z-index: 2;
-    background: rgba(26, 26, 46, 0.9);
-    backdrop-filter: blur(10px);
+    background: var(--bg-card);
     border-radius: 12px;
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--shadow);
     width: 100%;
     max-width: 1000px;
-    border: 1px solid var(--border-light);
+    border: 1px solid var(--input-border);
     padding: 20px;
     position: relative;
     animation: fadeIn 0.5s ease-out;
@@ -78,7 +110,7 @@ h1 {
     font-size: 1.8rem;
     font-weight: 600;
     color: var(--text-light);
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -86,20 +118,18 @@ h1 {
 
 /* Form Containers */
 .form-container {
-    background: var(--bg-card);
+    background: var(--bg-dark);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow);
     margin-bottom: 20px;
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--input-border);
     transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
 }
 
 .form-container:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-primary);
-    border-color: var(--color-primary);
+    box-shadow: var(--shadow-hover);
 }
 
 .form-container h3 {
@@ -121,8 +151,8 @@ input, textarea, button, select {
     width: 100%;
     padding: 10px 15px;
     margin: 6px 0;
-    background: var(--bg-input);
-    border: 1px solid var(--border-light);
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
     border-radius: 6px;
     font-size: 0.9rem;
     transition: all 0.3s ease;
@@ -132,8 +162,8 @@ input, textarea, button, select {
 
 input:focus, textarea:focus, select:focus {
     outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 2px rgba(0, 168, 232, 0.2);
     transform: translateY(-1px);
 }
 
@@ -144,8 +174,8 @@ input::placeholder, textarea::placeholder {
 
 /* Botones */
 button {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-    color: var(--text-light);
+    background: var(--button-bg);
+    color: white;
     border: none;
     cursor: pointer;
     font-weight: 500;
@@ -154,33 +184,18 @@ button {
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     padding: 10px 20px;
 }
 
 button:hover {
-    background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+    background: var(--button-hover-bg);
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(255, 107, 53, 0.4);
 }
 
 button:active {
     transform: translateY(0);
-}
-
-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-button:hover::before {
-    left: 100%;
 }
 
 /* Header Principal */
@@ -190,14 +205,11 @@ button:hover::before {
     align-items: center;
     margin-bottom: 20px;
     padding: 15px 20px;
-    background: linear-gradient(135deg, 
-        rgba(255, 107, 53, 0.2), 
-        rgba(255, 159, 28, 0.2));
+    background: var(--bg-dark);
     border-radius: 10px;
-    color: var(--text-light);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border-light);
-    backdrop-filter: blur(5px);
+    color: white;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--input-border);
 }
 
 .header h2 {
@@ -209,55 +221,52 @@ button:hover::before {
 .header button {
     width: auto;
     padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid var(--border-light);
+    background: rgba(255, 107, 53, 0.1);
+    border: 1px solid var(--color-primary);
     backdrop-filter: blur(10px);
     font-size: 0.8rem;
 }
 
 .header button:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 107, 53, 0.2);
     transform: translateY(-1px);
 }
 
 /* Cards */
 .card {
-    background: var(--bg-card);
+    background: var(--bg-dark);
     padding: 18px;
     border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow);
     margin-bottom: 18px;
-    border: 1px solid var(--border-secondary);
+    border: 1px solid var(--input-border);
     transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
 }
 
 .card:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-secondary);
-    border-color: var(--color-secondary);
+    box-shadow: var(--shadow-hover);
 }
 
 .card h3 {
     color: var(--text-light);
     margin-bottom: 15px;
     font-size: 1.1rem;
-    border-bottom: 2px solid var(--color-secondary);
+    border-bottom: 2px solid var(--color-primary);
     padding-bottom: 6px;
     display: inline-block;
 }
 
 /* Order Items */
 .order-item {
-    border: 1px solid var(--border-light);
+    border: 1px solid var(--input-border);
     padding: 15px;
     margin: 10px 0;
     border-radius: 8px;
-    background: var(--bg-input);
+    background: var(--bg-card);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(3px);
 }
 
 .order-item:hover {
@@ -318,23 +327,22 @@ button:hover::before {
 
 /* Estados de órdenes */
 .estado[data-estado="pending"] { 
-    background: rgba(255, 159, 28, 0.2); 
-    color: var(--color-warning); 
-    border: 1px solid rgba(255, 159, 28, 0.3);
+    background: rgba(255, 107, 53, 0.2); 
+    color: var(--color-primary); 
+    border: 1px solid rgba(255, 107, 53, 0.3);
 }
 .estado[data-estado="preparing"] { 
-    background: rgba(67, 97, 238, 0.2); 
-    color: var(--color-info); 
-    border: 1px solid rgba(67, 97, 238, 0.3);
+    background: rgba(0, 168, 232, 0.2); 
+    color: var(--color-secondary); 
+    border: 1px solid rgba(0, 168, 232, 0.3);
 }
 .estado[data-estado="delivered"] { 
     background: rgba(46, 196, 182, 0.2); 
-    color: var(--color-success); 
+    color: var(--color-accent); 
     border: 1px solid rgba(46, 196, 182, 0.3);
 }
 
-/* ===== MENSAJES DINÁMICOS ===== */
-
+/* ===== MENSAJES ===== */
 .message {
     position: fixed;
     bottom: 80px;
@@ -346,11 +354,8 @@ button:hover::before {
     max-width: 85%;
     width: auto;
     min-width: 250px;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
     animation: superMessageInBottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
                superMessageOutBottom 0.4s ease 3.5s forwards;
-    transform-origin: center;
     font-weight: 500;
     letter-spacing: 0.2px;
     font-size: 0.9rem;
@@ -385,45 +390,128 @@ button:hover::before {
     }
 }
 
-.message::before {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%) rotate(45deg);
-    width: 12px;
-    height: 12px;
-    background: inherit;
-    z-index: -1;
-}
-
-/* Mensajes dinámicos con colores de la paleta */
 .message.success {
-    background: linear-gradient(135deg, var(--color-success), var(--color-secondary));
-    color: var(--text-light);
-    border: 1px solid rgba(46, 196, 182, 0.6);
-    box-shadow: var(--shadow-secondary);
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
+    color: white;
+    border: 1px solid rgba(0, 168, 232, 0.6);
+    box-shadow: 0 10px 25px rgba(0, 168, 232, 0.4);
 }
 
 .message.error {
-    background: linear-gradient(135deg, var(--color-error), #FF6B6B);
-    color: var(--text-light);
-    border: 1px solid rgba(231, 29, 54, 0.6);
-    box-shadow: 0 10px 25px rgba(231, 29, 54, 0.4);
+    background: linear-gradient(135deg, var(--color-primary), #FF4444);
+    color: white;
+    border: 1px solid rgba(255, 107, 53, 0.6);
+    box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
 }
 
 .message.info {
-    background: linear-gradient(135deg, var(--color-info), #4895EF);
+    background: linear-gradient(135deg, var(--bg-card), var(--bg-dark));
     color: var(--text-light);
-    border: 1px solid rgba(67, 97, 238, 0.6);
-    box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+    border: 1px solid var(--input-border);
+    box-shadow: var(--shadow);
 }
 
-.message.warning {
-    background: linear-gradient(135deg, var(--color-warning), var(--color-accent));
-    color: var(--text-dark);
-    border: 1px solid rgba(255, 159, 28, 0.6);
-    box-shadow: 0 10px 25px rgba(255, 159, 28, 0.4);
+/* Responsive */
+@media (max-width: 768px) {
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .toggle-btn {
+        padding: 6px 12px;
+        font-size: 0.7rem;
+    }
+    
+    .message {
+        bottom: 60px;
+        max-width: 90%;
+        min-width: 200px;
+        padding: 10px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 12px 15px;
+    }
+    
+    .header button {
+        width: 100%;
+        padding: 6px 12px;
+    }
+    
+    h1 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+    }
+    
+    .form-container {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
 }
 
-/* Resto del código responsive y efectos se mantiene igual... */
+/* Loading Spinner */
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Badge */
+.order-badge {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 8px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+}

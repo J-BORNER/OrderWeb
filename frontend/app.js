@@ -364,3 +364,50 @@ window.addEventListener('beforeunload', function(e) {
         e.returnValue = '¿Estás seguro de que quieres salir? Se perderán los datos no guardados.';
     }
 });
+
+// ===== TOGGLE MODO CLARO/OSCURO =====
+function initThemeToggle() {
+    const toggleBtn = document.createElement('div');
+    toggleBtn.className = 'theme-toggle';
+    toggleBtn.innerHTML = `
+        <button class="toggle-btn" onclick="toggleTheme()">
+            <span class="toggle-icon">🌙</span>
+            <span class="toggle-text">Modo Oscuro</span>
+        </button>
+    `;
+    document.body.appendChild(toggleBtn);
+    
+    // Cargar tema guardado
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+}
+
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    
+    const toggleBtn = document.querySelector('.toggle-btn');
+    if (toggleBtn) {
+        const icon = toggleBtn.querySelector('.toggle-icon');
+        const text = toggleBtn.querySelector('.toggle-text');
+        
+        if (theme === 'dark') {
+            icon.textContent = '🌙';
+            text.textContent = 'Modo Oscuro';
+        } else {
+            icon.textContent = '☀️';
+            text.textContent = 'Modo Claro';
+        }
+    }
+}
+
+// Inicializar toggle cuando cargue la página
+document.addEventListener('DOMContentLoaded', function() {
+    initThemeToggle();
+});
