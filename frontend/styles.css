@@ -1,3 +1,4 @@
+
 :root {
     --color-primary: #CD212A; /* Rojo italiano */
     --color-secondary: #008C45; /* Verde italiano */
@@ -83,6 +84,16 @@ h1::after {
     content: '🍕';
     margin-left: 10px;
     font-size: 1.5rem;
+}
+
+/* Sección de autenticación */
+#auth-section {
+    animation: slideIn 0.6s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 /* Form Containers */
@@ -185,6 +196,16 @@ button:hover::before {
     left: 100%;
 }
 
+/* Sección principal de pedidos */
+#main-section {
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* Header Principal */
 .header {
     display: flex;
@@ -221,7 +242,7 @@ button:hover::before {
     transform: translateY(-1px);
 }
 
-/* Cards */
+/* Cards de pedidos */
 .card {
     background: rgba(255, 255, 255, 0.08);
     padding: 18px;
@@ -249,7 +270,7 @@ button:hover::before {
     text-shadow: 0 0 6px rgba(205, 33, 42, 0.5);
 }
 
-/* Order Items */
+/* Items de pedidos - ESTILOS DINÁMICOS */
 .order-item {
     border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 15px;
@@ -260,12 +281,24 @@ button:hover::before {
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(3px);
+    animation: itemAppear 0.5s ease-out;
+}
+
+@keyframes itemAppear {
+    from { 
+        opacity: 0; 
+        transform: translateX(-20px) scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateX(0) scale(1); 
+    }
 }
 
 .order-item:hover {
     border-color: var(--color-primary);
-    transform: translateX(3px);
-    box-shadow: 0 6px 18px rgba(205, 33, 42, 0.15);
+    transform: translateX(5px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(205, 33, 42, 0.2);
 }
 
 .order-item::before {
@@ -282,6 +315,21 @@ button:hover::before {
 
 .order-item:hover::before {
     opacity: 1;
+}
+
+.order-item.pending {
+    border-left: 3px solid #ffc107;
+    background: rgba(255, 193, 7, 0.05);
+}
+
+.order-item.preparing {
+    border-left: 3px solid #008C45;
+    background: rgba(0, 140, 69, 0.08);
+}
+
+.order-item.delivered {
+    border-left: 3px solid #CD212A;
+    background: rgba(205, 33, 42, 0.08);
 }
 
 .order-item p {
@@ -304,6 +352,7 @@ button:hover::before {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.3px;
+    transition: all 0.3s ease;
 }
 
 .estado-btn {
@@ -312,30 +361,50 @@ button:hover::before {
     padding: 6px 12px;
     font-size: 0.75rem;
     background: linear-gradient(135deg, #008C45, #CD212A);
+    transition: all 0.3s ease;
 }
 
 .estado-btn:hover {
     background: linear-gradient(135deg, #CD212A, #008C45);
+    transform: translateY(-2px) scale(1.05);
 }
 
-/* Estados de órdenes */
+.estado-btn:active {
+    transform: translateY(0) scale(1);
+}
+
+/* Estados de pedidos dinámicos */
 .estado[data-estado="pending"] { 
     background: rgba(255, 193, 7, 0.2); 
     color: #ffc107; 
     border: 1px solid rgba(255, 193, 7, 0.3);
+    animation: pulsePending 2s infinite;
 }
+
 .estado[data-estado="preparing"] { 
     background: rgba(0, 140, 69, 0.3); 
     color: #00C851; 
     border: 1px solid rgba(0, 140, 69, 0.4);
+    animation: pulsePreparing 2s infinite;
 }
+
 .estado[data-estado="delivered"] { 
     background: rgba(205, 33, 42, 0.3); 
     color: #ff4444; 
     border: 1px solid rgba(205, 33, 42, 0.4);
 }
 
-/* ===== MENSAJES - ESTILO ITALIANO ===== */
+@keyframes pulsePending {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 193, 7, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(255, 193, 7, 0.6); }
+}
+
+@keyframes pulsePreparing {
+    0%, 100% { box-shadow: 0 0 5px rgba(0, 140, 69, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(0, 140, 69, 0.6); }
+}
+
+/* ===== MENSAJES DINÁMICOS ===== */
 
 .message {
     position: fixed;
@@ -420,7 +489,7 @@ button:hover::before {
     100% { left: 100%; }
 }
 
-/* Mensajes con colores italianos */
+/* Mensajes dinámicos */
 .message.success {
     background: linear-gradient(135deg, #008C45, #00C851);
     color: white;
@@ -525,7 +594,7 @@ button:hover::before {
     }
 }
 
-/* Loading Spinner */
+/* Loading Spinner dinámico */
 .loading {
     display: inline-block;
     width: 16px;
@@ -541,7 +610,7 @@ button:hover::before {
     to { transform: rotate(360deg); }
 }
 
-/* Badge italiano */
+/* Badge dinámico */
 .order-badge {
     background: linear-gradient(135deg, #CD212A, #008C45);
     color: white;
@@ -559,7 +628,7 @@ button:hover::before {
     50% { transform: scale(1.03); }
 }
 
-/* Scrollbar italiano */
+/* Scrollbar dinámico */
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -578,28 +647,28 @@ button:hover::before {
     background: linear-gradient(135deg, #CD212A, #008C45);
 }
 
-/* Efectos especiales para restaurante */
-.card h3::before {
-    content: '🍝 ';
+/* Efectos de transición para cambios de estado */
+.order-item.updating {
+    animation: updatePulse 0.6s ease-in-out;
 }
 
-#order-form h3::before {
-    content: '📝 ';
+@keyframes updatePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); background: rgba(0, 140, 69, 0.1); }
 }
 
-#orders-list h3::before {
-    content: '📋 ';
-}
-
-/* Iconos para estados */
-.estado[data-estado="pending"]::before {
-    content: '⏳ ';
-}
-
-.estado[data-estado="preparing"]::before {
-    content: '👨‍🍳 ';
-}
-
-.estado[data-estado="delivered"]::before {
-    content: '✅ ';
+/* Contador de pedidos activos */
+.orders-counter {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #CD212A, #008C45);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    animation: bounceIn 0.5s ease-out;
 }
