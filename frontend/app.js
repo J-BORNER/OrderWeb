@@ -16,9 +16,9 @@ function showMessage(message, type = 'info') {
     messageEl.innerHTML = `
         ${message}
         <div class="particles">
-            ${Array.from({length: 8}, (_, i) => 
-                `<div class="particle" style="left: ${Math.random() * 100}%; animation-delay: ${Math.random() * 2}s;"></div>`
-            ).join('')}
+            ${Array.from({ length: 8 }, (_, i) =>
+        `<div class="particle" style="left: ${Math.random() * 100}%; animation-delay: ${Math.random() * 2}s;"></div>`
+    ).join('')}
         </div>
         <button class="close-btn" onclick="this.parentElement.remove()">×</button>
     `;
@@ -34,41 +34,41 @@ function showMessage(message, type = 'info') {
 }
 
 // Mostrar mensaje de bienvenida al cargar la página
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     showMessage('🚀 Bienvenido al Sistema de Órdenes', 'info');
 });
 
 // Registro de cliente
 document.getElementById('register-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const cliente = {
         nombre: document.getElementById('reg-nombre').value,
         email: document.getElementById('reg-email').value,
         telefono: document.getElementById('reg-telefono').value
     };
-    
+
     // Validación básica
     if (!cliente.nombre || !cliente.email || !cliente.telefono) {
         showMessage('❌ Todos los campos son requeridos', 'error');
         return;
     }
-    
+
     try {
         // Mostrar loading
         const submitBtn = e.target.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.innerHTML = '<span class="loading"></span> Registrando...';
         submitBtn.disabled = true;
-        
+
         const response = await fetch(`${API_URL}/clientes/registrar`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(cliente)
         });
-        
+
         const result = await response.json();
-        
+
         if (response.ok) {
             showMessage('🎉 ¡Cliente registrado exitosamente!', 'success');
             document.getElementById('register-form').reset();
@@ -89,33 +89,33 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
 // Login de cliente
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const credentials = {
         email: document.getElementById('login-email').value,
         telefono: document.getElementById('login-telefono').value
     };
-    
+
     // Validación básica
     if (!credentials.email || !credentials.telefono) {
         showMessage('❌ Email y teléfono son requeridos', 'error');
         return;
     }
-    
+
     try {
         // Mostrar loading
         const submitBtn = e.target.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.innerHTML = '<span class="loading"></span> Ingresando...';
         submitBtn.disabled = true;
-        
+
         const response = await fetch(`${API_URL}/clientes/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials)
         });
-        
+
         const result = await response.json();
-        
+
         if (result.success) {
             currentClient = result.cliente;
             showMessage(`👋 ¡Bienvenido ${result.cliente.nombre}!`, 'success');
@@ -138,32 +138,32 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
 // Crear nueva orden
 document.getElementById('order-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const orden = {
         cliente_id: currentClient.id,
         platillo_nombre: document.getElementById('platillo-nombre').value,
         notes: document.getElementById('platillo-notes').value
     };
-    
+
     // Validación básica
     if (!orden.platillo_nombre) {
         showMessage('❌ El nombre del platillo es requerido', 'error');
         return;
     }
-    
+
     try {
         // Mostrar loading
         const submitBtn = e.target.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.innerHTML = '<span class="loading"></span> Creando orden...';
         submitBtn.disabled = true;
-        
+
         const response = await fetch(`${API_URL}/ordenes`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orden)
         });
-        
+
         if (response.ok) {
             showMessage('🍕 ¡Orden creada exitosamente!', 'success');
             document.getElementById('order-form').reset();
@@ -187,16 +187,16 @@ document.getElementById('order-form').addEventListener('submit', async (e) => {
 async function loadOrders() {
     try {
         const response = await fetch(`${API_URL}/ordenes/${currentClient.id}`);
-        
+
         if (!response.ok) {
             throw new Error('Error al cargar órdenes');
         }
-        
+
         const orders = await response.json();
-        
+
         const ordersList = document.getElementById('orders-list');
         ordersList.innerHTML = '';
-        
+
         if (orders.length === 0) {
             ordersList.innerHTML = `
                 <div class="order-item" style="text-align: center; color: #666;">
@@ -206,7 +206,7 @@ async function loadOrders() {
             `;
             return;
         }
-        
+
         orders.forEach(order => {
             const orderElement = document.createElement('div');
             orderElement.className = 'order-item';
@@ -215,10 +215,10 @@ async function loadOrders() {
                 <p><strong>Notas:</strong> ${order.notes || 'Ninguna'}</p>
                 <p><strong>Estado:</strong> <span class="estado" data-estado="${order.estado}">${getEstadoText(order.estado)}</span></p>
                 <p><strong>Fecha:</strong> ${new Date(order.creado).toLocaleString()}</p>
-                ${order.estado !== 'delivered' ? 
+                ${order.estado !== 'delivered' ?
                     `<button class="estado-btn" onclick="updateOrderStatus(${order.id}, '${getNextStatus(order.estado)}')">
                         Avanzar Estado
-                    </button>` : 
+                    </button>` :
                     `<button class="estado-btn" style="background: linear-gradient(135deg, #27ae60, #2ecc71);" disabled>
                         ✅ Entregado
                     </button>`
@@ -226,10 +226,10 @@ async function loadOrders() {
             `;
             ordersList.appendChild(orderElement);
         });
-        
+
         // Actualizar badge de órdenes
         updateOrdersBadge(orders.length);
-        
+
     } catch (error) {
         console.error('Error cargando órdenes:', error);
         showMessage('❌ Error al cargar las órdenes', 'error');
@@ -244,7 +244,7 @@ async function updateOrderStatus(orderId, newStatus) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ estado: newStatus })
         });
-        
+
         if (response.ok) {
             showMessage('🔄 Estado actualizado correctamente', 'success');
             loadOrders();
@@ -280,7 +280,7 @@ function showMainSection() {
     document.getElementById('auth-section').style.display = 'none';
     document.getElementById('main-section').style.display = 'block';
     document.getElementById('client-name').textContent = currentClient.nombre;
-    
+
     // Agregar badge al título si no existe
     const ordersTitle = document.querySelector('#main-section .card h3');
     if (ordersTitle && !ordersTitle.querySelector('.order-badge')) {
@@ -308,31 +308,31 @@ function logout() {
 }
 
 // Efectos adicionales para mejorar la UX
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Agregar efectos de hover a todos los botones
     const buttons = document.querySelectorAll('button');
     buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
+        button.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-2px)';
         });
-        
-        button.addEventListener('mouseleave', function() {
+
+        button.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0)';
         });
     });
-    
+
     // Agregar efectos a los inputs
     const inputs = document.querySelectorAll('input, textarea');
     inputs.forEach(input => {
-        input.addEventListener('focus', function() {
+        input.addEventListener('focus', function () {
             this.parentElement.style.transform = 'translateY(-2px)';
         });
-        
-        input.addEventListener('blur', function() {
+
+        input.addEventListener('blur', function () {
             this.parentElement.style.transform = 'translateY(0)';
         });
     });
-    
+
     // Auto-focus en el primer input del login
     const loginEmail = document.getElementById('login-email');
     if (loginEmail) {
@@ -352,13 +352,13 @@ function clearAllForms() {
 }
 
 // Manejar errores no capturados
-window.addEventListener('error', function(e) {
+window.addEventListener('error', function (e) {
     console.error('Error global:', e.error);
     showMessage('⚠️ Ocurrió un error inesperado', 'error');
 });
 
 // Confirmar antes de recargar si hay datos
-window.addEventListener('beforeunload', function(e) {
+window.addEventListener('beforeunload', function (e) {
     if (currentClient) {
         e.preventDefault();
         e.returnValue = '¿Estás seguro de que quieres salir? Se perderán los datos no guardados.';
@@ -366,19 +366,19 @@ window.addEventListener('beforeunload', function(e) {
 });
 
 // ===== TOGGLE MODO CLARO/OSCURO =====
+// Toggle Theme Functionality
 function initThemeToggle() {
-    const toggleBtn = document.createElement('div');
-    toggleBtn.className = 'theme-toggle';
-    toggleBtn.innerHTML = `
-        <button class="toggle-btn" onclick="toggleTheme()">
-            <span class="toggle-icon">🌙</span>
-            <span class="toggle-text">Modo Oscuro</span>
-        </button>
-    `;
-    document.body.appendChild(toggleBtn);
-    
-    // Cargar tema guardado
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const themeToggle = document.createElement('button');
+    themeToggle.className = 'theme-toggle';
+    themeToggle.innerHTML = '🌙';
+    themeToggle.title = 'Cambiar tema';
+    themeToggle.onclick = toggleTheme;
+
+    document.querySelector('.container').appendChild(themeToggle);
+
+    // Check for saved theme or prefer color scheme
+    const savedTheme = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
     setTheme(savedTheme);
 }
 
@@ -391,23 +391,14 @@ function toggleTheme() {
 function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-    
-    const toggleBtn = document.querySelector('.toggle-btn');
-    if (toggleBtn) {
-        const icon = toggleBtn.querySelector('.toggle-icon');
-        const text = toggleBtn.querySelector('.toggle-text');
-        
-        if (theme === 'dark') {
-            icon.textContent = '🌙';
-            text.textContent = 'Modo Oscuro';
-        } else {
-            icon.textContent = '☀️';
-            text.textContent = 'Modo Claro';
-        }
+
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.innerHTML = theme === 'dark' ? '🌙' : '☀️';
     }
 }
 
-// Inicializar toggle cuando cargue la página
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize theme when DOM loads
+document.addEventListener('DOMContentLoaded', function () {
     initThemeToggle();
 });
