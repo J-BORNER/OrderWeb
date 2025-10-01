@@ -373,12 +373,12 @@ function initThemeToggle() {
     themeToggle.innerHTML = '🌙';
     themeToggle.title = 'Cambiar tema';
     themeToggle.onclick = toggleTheme;
-
+    
     document.querySelector('.container').appendChild(themeToggle);
-
+    
     // Check for saved theme or prefer color scheme
-    const savedTheme = localStorage.getItem('theme') ||
-        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    const savedTheme = localStorage.getItem('theme') || 
+                      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
     setTheme(savedTheme);
 }
 
@@ -391,7 +391,7 @@ function toggleTheme() {
 function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-
+    
     const themeToggle = document.querySelector('.theme-toggle');
     if (themeToggle) {
         themeToggle.innerHTML = theme === 'dark' ? '🌙' : '☀️';
@@ -399,6 +399,6 @@ function setTheme(theme) {
 }
 
 // Initialize theme when DOM loads
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     initThemeToggle();
 });
